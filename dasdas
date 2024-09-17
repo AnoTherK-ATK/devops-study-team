@@ -1,0 +1,42 @@
+[1mdiff --git a/sample-app.sh b/sample-app.sh[m
+[1mindex 0f98b80..246eb46 100644[m
+[1m--- a/sample-app.sh[m
+[1m+++ b/sample-app.sh[m
+[36m@@ -13,10 +13,10 @@[m [mecho "RUN pip install flask" >> tempdir/Dockerfile[m
+ echo "COPY  ./static /home/myapp/static/" >> tempdir/Dockerfile[m
+ echo "COPY  ./templates /home/myapp/templates/" >> tempdir/Dockerfile[m
+ echo "COPY  sample_app.py /home/myapp/" >> tempdir/Dockerfile[m
+[31m-echo "EXPOSE 5050" >> tempdir/Dockerfile[m
+[32m+[m[32mecho "EXPOSE 8080" >> tempdir/Dockerfile[m
+ echo "CMD python /home/myapp/sample_app.py" >> tempdir/Dockerfile[m
+ [m
+ cd tempdir[m
+ docker build -t sampleapp .[m
+[31m-docker run -t -d -p 5050:5050 --name samplerunning sampleapp[m
+[32m+[m[32mdocker run -t -d -p 8080:8080 --name samplerunning sampleapp[m
+ docker ps -a [m
+[1mdiff --git a/sample_app.py b/sample_app.py[m
+[1mindex 99ac196..e6f0034 100644[m
+[1m--- a/sample_app.py[m
+[1m+++ b/sample_app.py[m
+[36m@@ -10,4 +10,4 @@[m [mdef main():[m
+     return render_template("index.html")[m
+ [m
+ if __name__ == "__main__":[m
+[31m-    sample.run(host="0.0.0.0", port=5050)[m
+[32m+[m[32m    sample.run(host="0.0.0.0", port=8080)[m
+[1mdiff --git a/tempdir/Dockerfile b/tempdir/Dockerfile[m
+[1mindex 2f427ce..1e4d49a 100644[m
+[1m--- a/tempdir/Dockerfile[m
+[1m+++ b/tempdir/Dockerfile[m
+[36m@@ -12,10 +12,3 @@[m [mCOPY  ./templates /home/myapp/templates/[m
+ COPY  sample_app.py /home/myapp/[m
+ EXPOSE 5050[m
+ CMD python /home/myapp/sample_app.py[m
+[31m-FROM python[m
+[31m-RUN pip install flask[m
+[31m-COPY  ./static /home/myapp/static/[m
+[31m-COPY  ./templates /home/myapp/templates/[m
+[31m-COPY  sample_app.py /home/myapp/[m
+[31m-EXPOSE 5050[m
+[31m-CMD python /home/myapp/sample_app.py[m
